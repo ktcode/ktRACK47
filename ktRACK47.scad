@@ -24,42 +24,150 @@ ATH = 9.5+0.5;
 H = 35;
 fn2 = 100;
 
+R1 = 9+0.5;
+S1 = 80;
 
-translate([120-16.2/2, 57.4, 0]) rotate([0, 0, -70]) door();
+//unit20
+UW = 20+0.5;
+UD1 = 51;
+UD2 = 260-UD1;
+UH = 15+0.5;
+
+W=107;
 wall();
-translate([0, -150, H]) rotate([0, 0, 0]) arm2();
-translate([0, -150+200, H]) rotate([0, 0, 35]) arm3();
+translate([-16.2/2, 57.4, 0]) rotate([0, 0, -00]) door(W); translate([-W, -120, -43]) rotate([0, 0, -0.0]) arm2(000);
+//translate([-16.2/2, 57.4, 0]) rotate([0, 0, -90]) door(W); translate([-W, -120, -43]) rotate([0, 0, -6.6]) arm2(200);
+
+translate([-W, -120, -43]) arm3();
+
+//cylinder(r=9/2, h=40, $fn=100);
+
+//arm2_head();
+//arm2b();
+
 
 module arm1()
 {
+translate([0, -(15+10), 0])
 difference()
 {
     union()
     {
-        translate([-120/2-30,  -10, 0]) cube([120+30, 10, 60]);
-        translate([-60/2,  -70, 0]) cube([60, 70, 60]);
-        translate([0, -70, 0]) cylinder(r=60/2, h=60, $fn=100);
-        translate([-60,  -100, -gap1]) cube([60/2, 100, 30]);
-        translate([-60,  -100, 30-gap1]) cube([60, 100, 30]);
+        translate([0, 0, 15])
+        difference()
+        {
+            union()
+            {
+                translate([0, 0, -12/2]) cylinder(r=20/2, h=12+10, $fn=100);
+                rotate([0, 0, 180]) translate([-20/2, -20/2-10-12, -12/2])  cube([20, 20+12, 12+10]);
+                rotate([0, 0, 180+45]) translate([-20/2, -20/2-10-12, -12/2])  cube([20, 20+12, 12+10]);
+                rotate([0, 0, -180-45]) translate([-20/2, -20/2-10-12, -12/2])  cube([20, 20+12, 12+10]);
+            }
+            translate([0, 0, -12/2-gap1]) cylinder(r=R1/2, h=12+10+gap2, $fn=100);
+            translate([0, 0, -12/2-gap1]) cylinder(r1=(R1+3)/2, r2=7.5/2, h=3, $fn=100);
+        }
+        translate([0, 0, -4.5-12/2-3])
+        difference()
+       {
+           union()
+           {
+               translate([0, 0, -9/2]) cylinder(r=20/2, h=9, $fn=100);
+               rotate([0, 0, 180]) translate([-20/2, -20/2-10-12, -9/2])  cube([20, 20+12, 9]);
+                rotate([0, 0, 180+45]) translate([-20/2, -20/2-10-12, -9/2])  cube([20, 20+12, 9]);
+                rotate([0, 0, -180-45]) translate([-20/2, -20/2-10-12, -9/2])  cube([20, 20+12, 9]);
+           }
+           translate([0, 0, -9/2-gap1]) cylinder(r=R1/2, h=9+gap2, $fn=100);
+        }
+        
+        translate([-60/2, 15, -100+12/2+3+(12+10)+50])  cube([60, 10, 100-50]);
     }
-    translate([0, -70, 0]) cylinder(r=(30/2)+1, h=60+1, $fn=100);
-    translate([0, -70, 0-gap1]) cylinder(r=(60/2)+gap1, h=30, $fn=100);
-    translate([0+gap1,  -70, -gap1]) cube([60/2, 60/2, 30]);
-    
-    //#translate([0, -150, H]) for(a=[-90:1:0]) rotate([a, 0, 0]) arm2();
-    
+    translate([-60/2, 15+10-1, -100+12/2+3+(12+10-gap1)])  cube([60, 10, 100+gap2]);
 }
 }
 
-module arm2()
+module arm2(L=0)
+{
+    translate([-35/2, S1+2+9/2+4+12/2+L, 0])arm2_head();
+    arm2a();
+    arm2b();
+}
+
+module arm2_head()
 {
 difference()
 {
     union()
     {
-        translate([50/2, 0, 0]) rotate([0, -90, 0]) cylinder(r=10/2, h=50, $fn=fn2);
-        translate([-30/2,  80-250, -H]) cube([30, 250, 30]);
+        translate([0, 0, -12/2]) cylinder(r=20/2, h=12, $fn=100);
+        translate([0, -9/2-(10+5)-5+gap1, 0]) rotate([-90, 0, 0]) cylinder(r=16/2, h=14+5, $fn=100);
     }
+    translate([0, 0, -12/2-gap1]) cylinder(r=R1/2, h=12+gap2, $fn=100);
+    translate([0, 0, -12/2-gap1]) cylinder(r1=(R1+3)/2, r2=7.5/2, h=3, $fn=100);
+    translate([0, -(10+5)-5, -30/2]) cylinder(r=(4+0.5)/2, h=30, $fn=100);
+
+    translate([-16/2, -9/2-(10+5)-5-gap1, 12/2]) cube([16, 14+5+gap2, 3]);
+    translate([-16/2, -9/2-(10+5)-5-gap1, -12/2-3]) cube([16, 14+5+gap2, 3]);
+    
+    difference()
+    {
+        translate([0, -9/2-(10+5)-5, 0]) rotate([-90, 0, 0]) cylinder(r=(9+0.5)/2, h=10, $fn=100);
+        translate([-9/2, -9/2-(10+5)-5-gap1, 9/2-1.5+0.5/2]) cube([9, 10+gap2, 1.5]);
+        translate([-9/2, -9/2-(10+5)-5-gap1, -9/2-0.5/2]) cube([9, 10+gap2, 1.5]);
+    }
+}
+}
+
+module arm2a()
+{
+difference()
+{
+    union()
+    {
+        translate([-35,  S1-260-5, 0]) cube([35, 260, (UH+th*4)/2]);
+        translate([0, 0, 0]) cylinder(r=20/2, h=(UH+th*4)/2, $fn=fn2);
+    }
+    translate([0, 0, -50/2]) cylinder(r=7.5/2, h=50, $fn=fn2);
+    translate([-35/2, UD1+UD2+(S1-260-5)+5, 0]) unit20();
+    
+    translate([-35/2+13, S1-10, 0]) m3neji();
+    translate([-35/2-13, S1-10, 0]) m3neji();
+    translate([-35/2+13, S1-265+200, 0]) m3neji();
+    translate([-35/2-13, S1-265+200, 0]) m3neji();
+    translate([-35/2+13, S1-265+130, 0]) m3neji();
+    translate([-35/2-13, S1-265+130, 0]) m3neji();
+    translate([-35/2+13, S1-265+60, 0]) m3neji();
+    translate([-35/2-13, S1-265+60, 0]) m3neji();
+    translate([-35/2+13, S1-265+5, 0]) m3neji();
+    translate([-35/2-13, S1-265+5, 0]) m3neji();
+}
+}
+module arm2b()
+{
+difference()
+{
+    union()
+    {
+        translate([-35,  S1-260-5, -(UH+th*4)/2]) cube([35, 260, (UH+th*4)/2]);
+        translate([0, 0, -(UH+th*4)/2]) cylinder(r=20/2, h=(UH+th*4)/2, $fn=fn2);
+    }
+    translate([0, 0, -50/2]) cylinder(r=7.5/2, h=50, $fn=fn2);
+    translate([-35/2, UD1+UD2+(S1-260-5)+5, 0]) unit20();
+    
+    //wire
+    translate([-35/2-4/2, -UD1-UD2+S1+5+9-6, -15/2-2]) cube([4, 265-(S1+5+9-5)-20, 4]);
+    translate([-35/2-4/2, -20, -15/2-2]) cube([14, 4, 10]);
+    translate([-35/2-4/2, -20, -15/2-2+6]) cube([20, 4, 4]);
+    
+    translate([-35/2+13, S1-10, 0]) m3neji();
+    translate([-35/2-13, S1-10, 0]) m3neji();
+    translate([-35/2+13, S1-265+200, 0]) m3neji();
+    translate([-35/2-13, S1-265+200, 0]) m3neji();
+    translate([-35/2+13, S1-265+130, 0]) m3neji();
+    translate([-35/2-13, S1-265+130, 0]) m3neji();
+    translate([-35/2+13, S1-265+60, 0]) m3neji();
+    translate([-35/2-13, S1-265+60, 0]) m3neji();
+    translate([-35/2+13, S1-265+5, 0]) m3neji();
+    translate([-35/2-13, S1-265+5, 0]) m3neji();
 }
 }
 
@@ -69,17 +177,48 @@ difference()
 {
     union()
     {
-        #translate([-30/2,  80-300, -H]) cube([30, 300, 30]);
-        translate([0, 80, -H+50]) cylinder(r1=30/2, r2=15/2, h=20, $fn=fn2);
-        translate([0, 80, -H]) cylinder(r=30/2, h=50, $fn=fn2);
-        translate([0, 80, -H+10]) cylinder(r=60/2, h=10, $fn=fn2);
+        translate([-50, -20/2, -17]) cube([70, 52, 60-1]);
+    }
+    translate([0, 0, -50/2]) cylinder(r=7.5/2, h=50, $fn=fn2);
+    translate([-50+5, -20/2-gap1, -17+4+1]) cube([70-10, 52+gap2, UH+th*4+1]);
+}
+}
+
+
+module unit20()
+{
+difference()
+{
+    union()
+    {
+        translate([-UW/2,  -UD1-UD2, -UH/2]) cube([UW, UD1, UH]);
+        translate([0, -UD2, 0]) rotate([-90, 0, 0]) cylinder(r=16/2, h=UD2, $fn=100);
+        
+        translate([0, -UD1-UD2+4.5, -(UH+20)/2]) cylinder(r=4.5/2, h=UH+20, $fn=100);
+    }
+    translate([-UW/2,  -UD2-gap1, UH/2-1.5]) cube([UW, UD2+gap2, 2]);
+    translate([-UW/2,  -UD2-gap1, -UH/2-2+1.5]) cube([UW, UD2+gap2, 2]);
+}
+}
+
+
+module m3neji()
+{
+difference()
+{
+    union()
+    {
+        translate([0, 0, th*2-gap1]) cylinder(r=5.5/2, h=40, $fn=100);
+        translate([0, 0, th]) cylinder(r1=3/2, r2=5.5/2, h=th, $fn=100);
+        translate([0, 0, 0]) cylinder(r=3/2, h=th, $fn=100);
+        translate([0, 0, -(12-th)+gap1]) cylinder(r1=1/2, r2=2.8/2, h=12-th, $fn=100);
     }
 }
 }
 
-
-module door()
+module door(W=100)
 {
+translate([0, 0, -100])
 difference()
 {
     union()
@@ -87,7 +226,7 @@ difference()
         color("LightGrey")translate([0, 0, 0]) cylinder(r=16.2/2, h=60, $fn=100);
         color("LightGrey")translate([16.2/2-5+gap1, -57.4, 0]) cube([5, 57.4, 60]);
         color("DarkGoldenrod")translate([-500+16.2/2,  -57.4, -400]) cube([500, 35.5, 500]);
-        translate([-120+16.2/2,  -57.4, 0]) arm1();
+        translate([-(20+W)+16.2/2,  -57.4, 60-3]) arm1();
     }
 }
 }
@@ -97,13 +236,14 @@ difference()
 
 module wall()
 {
+translate([0, 0, -85])
 difference()
 {
     union()
     {
-        color("Ivory")translate([-380, -130+8, 85+25]) cube([500, 130-8, 50]);
-        color("Goldenrod")translate([-380, -130, 85]) cube([500, 130, 25]);
-        color("Goldenrod")translate([-380, -30, 85-9]) cube([500, 30, 9]);
+        color("Ivory")translate([-500, -130+8, 85+25]) cube([500, 130-8, 50]);
+        color("Goldenrod")translate([-500, -130, 85]) cube([500, 130, 25]);
+        color("Goldenrod")translate([-500, -30, 85-9]) cube([500, 30, 9]);
     }
 }
 }
